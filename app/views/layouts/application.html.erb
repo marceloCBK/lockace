@@ -22,7 +22,14 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo center">Logo</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/"><i class="fa fa-sign-out"></i></a></li>
+
+        <% if user_signed_in? %>
+          <li>Olá, <%= current_user.email %></li>
+          <li><%= link_to('<i class="fa fa-sign-out"></i>'.html_safe, destroy_user_session_path, :method => :delete) %></li>
+        <% else %>
+          <li><%= link_to('<i class="fa fa-sign-in"></i>'.html_safe, new_user_session_path)  %></li>
+        <% end %>
+
         <!--<li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="mdi-navigation-arrow-drop-down right"></i></a></li>-->
       </ul>
     </div>
