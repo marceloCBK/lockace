@@ -47,8 +47,4 @@ body .Centralize {
 .FHeight {height: 100%}
 
 .Camera .Imagem {display: none;}
-.Padrao {display: none;}
-
-.Login {
-    width: 50%;
-}
+.Login .Padrao {display: none;}

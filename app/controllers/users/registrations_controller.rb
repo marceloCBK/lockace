@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 # before_filter :configure_sign_up_params, only: [:create]
 # before_filter :configure_account_update_params, only: [:update]
+include FacesAuthenticationHelper
 
   # GET /resource/sign_up
   # def new
@@ -8,9 +9,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    @test = cadastrar
+    # redirect_to
+    # super
+  end
 
   # GET /resource/edit
   # def edit

@@ -1,29 +1,107 @@
-<h2>Sign up</h2>
+<div class="container SignUp">
+  <div class="row Center">
+    <div class="col s10 m5">
+      <h2 class="header">Cadastre-se</h2>
+      <div class="card">
+        <div class="card-image Camera">
+          <video class="FWidth Video" autoplay></video>
+          <canvas class="FWidth Imagem"></canvas>
+        </div>
+        <div class="card-content">
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%= devise_error_messages! %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+              <div class="Padrao">
+                <div class="field">
+                  <%= f.label :email %><br />
+                  <%= f.email_field :email, autofocus: true %>
+                </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+                <div class="field">
+                  <%= f.label :password %>
+                  <% if @minimum_password_length %>
+                      <em>(No mínimo <%= @minimum_password_length %> caracteres)</em>
+                  <% end %><br />
+                  <%= f.password_field :password, autocomplete: "off" %>
+                </div>
+
+                <div class="field">
+                  <%= f.label :password_confirmation %><br />
+                  <%= f.password_field :password_confirmation, autocomplete: "off" %>
+                </div>
+
+              </div>
+
+              <!--TODO Implementar checkbox com Rails-->
+              <div class="field">
+                <input name="urlFace" id="urlFace" type="hidden" value="">
+                <input type="checkbox" value="1" name="useFace" id="useFace" checked>
+                <label for="useFace">Cadastrar face</label>
+              </div>
+
+              <div class="actions">
+                <%= f.button "Cadastrar", type: "button", class: "btn waves-effect waves-light Cadastrar" %>
+              </div>
+          <% end %>
+
+          <%= render "users/shared/links" %>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+Aki: <%= flash[:notice] %>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<div>
+  <script>
+    // Grab elements, create settings, etc.
+    var
+            imagem    = $(".Camera .Imagem"),
+            canvas    = imagem.get(0),
+            context   = canvas.getContext("2d"),
+            video     = $(".Camera .Video").get(0),
+            videoObj  = { "video": true },
+            errBack   = function(error) {
+              console.log("Video capture error: ", error.code);
+            };
+    function camera(){
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
+      // Put video listeners into place
+      if(navigator.getUserMedia) { // Standard
+        navigator.getUserMedia(videoObj, function(stream) {
+          video.src = stream;
+          video.play();
+        }, errBack);
+      } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+        navigator.webkitGetUserMedia(videoObj, function(stream){
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+        }, errBack);
+      }
+      else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+        navigator.mozGetUserMedia(videoObj, function(stream){
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+        }, errBack);
+      };
+    }
+    camera();
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+    $(".Cadastrar").click(function() {
+      //TODO Pegar a imagem inteira (problemas com "drawImage")
+      context.drawImage(video, 0, 0, 200, 200 * video.clientHeight/ video.clientWidth);
+//      context.drawImage(video, 0, 0, 300, 300 * video.offsetWidth/ video.offsetHeight);
+//      context.drawImage(video, 0, 0, 300, 300 * video.videoWidth/ video.videoHeight);
+//      imagem.height(video.offsetHeight);
+//      context.drawImage(video, 0, 0);
+      $("#urlFace").val(canvas.toDataURL());
+      $(".new_user").submit();
+    });
 
-<%= render "users/shared/links" %>
+    $("#useFace").change(function(){
+      $(".Camera .Video").slideToggle();
+//      $(".Padrao").slideToggle();
+    });
+  </script>
+</div>

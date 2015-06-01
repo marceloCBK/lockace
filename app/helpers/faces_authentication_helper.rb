@@ -14,6 +14,19 @@ module FacesAuthenticationHelper
 
   end
 
+  def cadastrar
+    face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
+
+    url = params[:urlFace]
+    uid = 'all@Test2'
+    response = face.faces_detect(:urls => url) unless url.blank?
+
+    # @tagsSave = face.tags_save(:uid => 'marcelo@Test2', :tids => @json['photos'][0]['tags'][0]['tid'])
+    # @facesTrain = face.faces_train(:uids => 'marcelo', :namespace  => 'Test2')
+
+    @test = response
+  end
+
   # GET /reconher
   def recognize
 
