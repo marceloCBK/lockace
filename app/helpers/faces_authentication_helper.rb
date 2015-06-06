@@ -14,18 +14,70 @@ module FacesAuthenticationHelper
 
   end
 
-  def cadastrar
+  def detectar
     face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
 
     url = params[:urlFace]
-    uid = 'all@Test2'
-    response = face.faces_detect(:urls => url) unless url.blank?
 
-    # @tagsSave = face.tags_save(:uid => 'marcelo@Test2', :tids => @json['photos'][0]['tags'][0]['tid'])
-    # @facesTrain = face.faces_train(:uids => 'marcelo', :namespace  => 'Test2')
+    # detect = '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTI1ODgmY3ZxPXI3MTg1b3EzbnI0MDQmZ3Z6cmZnbnpjPTIwMTUwNjA2MDAxOTQ4","pid":"F@0d805a8b7e8a20ae06a427821a663dae_e7185bd3ae404","width":300,"height":150,"tags":[]}],"usage":{"used":1,"remaining":99,"limit":100,"reset_time":1433550597,"reset_time_text":"Sat, 6 June 2015 00:29:57 +0000"},"operation_id":"65ea78fab63f4ec99fb3dd1a1f43cb61"}'
+    # detect = JSON.parse '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTk2OTUmY3ZxPTY2cDY1NDQ3NjBzMTYmZ3Z6cmZnbnpjPTIwMTUwNjA1MDE0NzUz","pid":"F@0da7f39f3e72abe16a1af9685812c4ab_66c6544760f16","width":300,"height":150,"tags":[{"uids":[],"label":null,"confirmed":false,"manual":false,"width":18.0,"height":36.0,"yaw":24,"roll":6,"pitch":0,"attributes":{"face":{"value":"true","confidence":60}},"points":null,"similarities":null,"tid":"TEMP_F@0da7f39f3e72abe16a1af968009c005d_66c6544760f16_52.00_62.00_0_1","recognizable":true,"center":{"x":52.0,"y":62.0},"eye_left":{"x":54.0,"y":54.0,"confidence":52,"id":449},"eye_right":{"x":45.0,"y":51.33,"confidence":54,"id":450},"mouth_center":{"x":48.0,"y":72.67,"confidence":47,"id":615},"nose":{"x":48.67,"y":62.0,"confidence":54,"id":403}}]}],"usage":{"used":10,"remaining":90,"limit":100,"reset_time":1433474997,"reset_time_text":"Fri, 5 June 2015 03:29:57 +0000"},"operation_id":"75f8167817724037900c2614a9e4998d"}'
+    detect = face.faces_detect(:urls => url) unless url.blank?
 
-    @test = response
+    if !detect.blank?
+      if !detect['photos'].blank?
+        if !detect['photos'][0].blank?
+          if !detect['photos'][0]['tags'].blank?
+            tags = detect['photos'][0]['tags']
+          end
+        end
+      end
+    end
+
+    limite = 60
+    if !tags.blank?
+      if !tags[0]['attributes'].blank?
+        if !tags[0]['attributes']['face'].blank?
+          if (tags[0]['attributes']['face']['confidence'].to_i >= limite)
+            tid = tags[0]['tid']
+          end
+        end
+      end
+    end
+
   end
+
+  def cadastrar tid, id
+
+    face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
+
+    namespace = 'userAce'
+    uid = "#{id}@#{namespace}"
+
+    # tagsSave = JSON.parse '{"status":"success","saved_tags":[{"tid":"009c005d_66c6544760f16","detected_tid":"TEMP_F@0da7f39f3e72abe16a1af968009c005d_66c6544760f16_52.00_62.00_0_1"}],"message":"Tag saved with uid: 1@userAce, label: ","operation_id":"622839020ebb4027ac848d315130bafc"}'
+    tagsSave = face.tags_save(:uid => uid, :tids => tid)
+
+
+    # verifica resposta de tagsSave
+    if !tagsSave.blank?
+      if !tagsSave['saved_tags'].blank?
+        # facesTrain = JSON.parse '{"status":"success","created":[{"uid":"1@userAce","training_set_size":1,"last_trained":1433557791,"training_in_progress":false}],"operation_id":"bdb679e7dc4a4df4aa1b51f7eb700972"}'
+        facesTrain = face.faces_train(:uids => id, :namespace  => namespace)
+      end
+    end
+
+    # verifica resposta de facesTrain
+    # if !facesTrain.blank?
+    #   if !facesTrain['created'].blank?
+    #     if !facesTrain['created'][0].blank?
+    #       if !facesTrain['created'][0]['uid'].blank?
+    #         facesTrain['created'][0]['uid'] == uid
+    #       end
+    #     end
+    #   end
+    # end
+
+  end
+
 
   # GET /reconher
   def recognize
