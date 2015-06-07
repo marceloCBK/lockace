@@ -17,37 +17,52 @@ module FacesAuthenticationHelper
   def detectar
     face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
 
-
-
     url = params[:urlFace]
     limite = 60
 
+    # Sem tags
     # detect = JSON.parse '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTI1ODgmY3ZxPXI3MTg1b3EzbnI0MDQmZ3Z6cmZnbnpjPTIwMTUwNjA2MDAxOTQ4","pid":"F@0d805a8b7e8a20ae06a427821a663dae_e7185bd3ae404","width":300,"height":150,"tags":[]}],"usage":{"used":1,"remaining":99,"limit":100,"reset_time":1433550597,"reset_time_text":"Sat, 6 June 2015 00:29:57 +0000"},"operation_id":"65ea78fab63f4ec99fb3dd1a1f43cb61"}'
+    # Uma tag
     # detect = JSON.parse '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTk2OTUmY3ZxPTY2cDY1NDQ3NjBzMTYmZ3Z6cmZnbnpjPTIwMTUwNjA1MDE0NzUz","pid":"F@0da7f39f3e72abe16a1af9685812c4ab_66c6544760f16","width":300,"height":150,"tags":[{"uids":[],"label":null,"confirmed":false,"manual":false,"width":18.0,"height":36.0,"yaw":24,"roll":6,"pitch":0,"attributes":{"face":{"value":"true","confidence":60}},"points":null,"similarities":null,"tid":"TEMP_F@0da7f39f3e72abe16a1af968009c005d_66c6544760f16_52.00_62.00_0_1","recognizable":true,"center":{"x":52.0,"y":62.0},"eye_left":{"x":54.0,"y":54.0,"confidence":52,"id":449},"eye_right":{"x":45.0,"y":51.33,"confidence":54,"id":450},"mouth_center":{"x":48.0,"y":72.67,"confidence":47,"id":615},"nose":{"x":48.67,"y":62.0,"confidence":54,"id":403}}]}],"usage":{"used":10,"remaining":90,"limit":100,"reset_time":1433474997,"reset_time_text":"Fri, 5 June 2015 03:29:57 +0000"},"operation_id":"75f8167817724037900c2614a9e4998d"}'
-    # Group
+    # Varias tags
     # detect = JSON.parse '{"status":"success","photos":[{"url":"https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xfp1/v/t1.0-9/p180x540/10256530_691954754174414_3884376225325975480_n.jpg?oh=fe957fa01553d0ba28612a04d915e74a&oe=55A8C1B1&__gda__=1436997505_83f78977f7487f9cd931f94d750b3159","pid":"F@0e98aa825ccca4d04c695bbe7231b30c_20b6dc66a738e","width":720,"height":540,"tags":[{"uids":[{"uid":"marcelo@Test2","confidence":49}],"label":null,"confirmed":false,"manual":false,"width":7.22,"height":9.63,"yaw":-27,"roll":0,"pitch":0,"attributes":{"face":{"value":"true","confidence":69}},"points":null,"similarities":null,"tid":"TEMP_F@0e98aa825ccca4d04c695bbe009a00de_20b6dc66a738e_21.39_41.11_0_1","recognizable":true,"threshold":52,"center":{"x":21.39,"y":41.11},"eye_left":{"x":24.17,"y":38.7,"confidence":53,"id":449},"eye_right":{"x":20.69,"y":38.33,"confidence":52,"id":450},"mouth_center":{"x":22.5,"y":43.52,"confidence":25,"id":615},"nose":{"x":22.64,"y":41.48,"confidence":55,"id":403}},{"uids":[{"uid":"marcelo@Test2","confidence":40}],"label":null,"confirmed":false,"manual":false,"width":6.39,"height":8.52,"yaw":-27,"roll":5,"pitch":0,"attributes":{"face":{"value":"true","confidence":69}},"points":null,"similarities":null,"tid":"TEMP_F@0e98aa825ccca4d04c695bbe010100b8_20b6dc66a738e_35.69_34.07_0_1","recognizable":true,"threshold":52,"center":{"x":35.69,"y":34.07},"eye_left":{"x":38.33,"y":32.41,"confidence":52,"id":449},"eye_right":{"x":35.14,"y":32.22,"confidence":51,"id":450},"mouth_center":{"x":36.67,"y":36.48,"confidence":53,"id":615},"nose":{"x":36.94,"y":34.81,"confidence":56,"id":403}},{"uids":[{"uid":"marcelo@Test2","confidence":47}],"label":null,"confirmed":false,"manual":false,"width":6.53,"height":8.7,"yaw":2,"roll":-5,"pitch":0,"attributes":{"face":{"value":"true","confidence":73}},"points":null,"similarities":null,"tid":"TEMP_F@0e98aa825ccca4d04c695bbe0164008b_20b6dc66a738e_49.44_25.74_0_1","recognizable":true,"threshold":52,"center":{"x":49.44,"y":25.74},"eye_left":{"x":50.83,"y":23.15,"confidence":54,"id":449},"eye_right":{"x":47.36,"y":23.7,"confidence":50,"id":450},"mouth_center":{"x":49.44,"y":28.15,"confidence":54,"id":615},"nose":{"x":49.31,"y":26.48,"confidence":57,"id":403}},{"uids":[{"uid":"marcelo@Test2","confidence":100}],"label":null,"confirmed":true,"manual":false,"width":6.94,"height":9.26,"yaw":16,"roll":-8,"pitch":0,"attributes":{"face":{"value":"true","confidence":77}},"points":null,"similarities":null,"tid":"01d400af_20b6dc66a738e","recognizable":true,"threshold":52,"center":{"x":65,"y":32.41},"eye_left":{"x":65.97,"y":29.63,"confidence":53,"id":449},"eye_right":{"x":62.5,"y":30.19,"confidence":52,"id":450},"mouth_center":{"x":64.31,"y":35,"confidence":53,"id":615},"nose":{"x":64.31,"y":33.15,"confidence":58,"id":403}}]}],"usage":{"used":6,"remaining":94,"limit":100,"reset_time":1428388197,"reset_time_text":"Tue, 7 April 2015 06:29:57 +0000"},"operation_id":"0227947c12914f6793bdcec36ab33bb0"}'
     detect = face.faces_detect(:urls => url) unless url.blank?
+
 
     # seleciona tags detectadas
     # obs.: "first" foi usado pois o resultado de JsonPath para argumetos com ".." fica em um array
     tags = JsonPath.on(detect, "$.photos..tags").first
-    @mensagens << 'Não foi possível detectar sua face!' if tags.blank?
+    @mensagens << [mensagem: 'Não foi possível detectar sua face!', erros:[tags: tags], detect: detect] if tags.blank?
+
 
     # Encontra qual tag detectata com maior confiança (confidence)
     # Caso existam mais de uma com o valor de qualidade maxima, apenas a primeira sera usada
     # c = confidences
-    c = JsonPath.on(tags, "$..face..confidence")
-    @mensagens << 'Não foi possível detectar sua face!' if c.blank?
+    if !tags.blank?
+      c = JsonPath.on(tags, "$..face..confidence")
+      @mensagens << [mensagem: 'Não foi possível detectar sua face!', erros: [confidences: c], detect: detect] if c.blank?
+    end
 
-    if c.max >= limite
+    # define o valor mais alto entre as "confidence" das tags identificadas
+    if c.is_a? Integer
+      maximo = c
+    elsif c.is_a? Array
+      maximo = c.max
+    end
+
+    aprovada = maximo.to_i >= limite
+    if aprovada
       c = c.index(c.max)
       tag = tags[c]
 
       # Encontra o tid nos dados da face encontrada acima
       tid = JsonPath.on(tag, "$.tid").first unless tag.blank?
-    else
-      @mensagens << 'Essa foto não ficou boa, que tentar novamente?'
     end unless c.blank? # não faça caso "c" esteja vazio
+    @mensagens << [mensagem: 'Essa foto não ficou boa, que tentar novamente?', erros: [certeza: maximo, limite: limite], detect: detect] unless aprovada
+
+
+    # retorno
+    tid
 
   end
 
@@ -67,8 +82,17 @@ module FacesAuthenticationHelper
       facesTrain = face.faces_train(:uids => id, :namespace  => namespace)
     end
 
+    @mensagens << [
+        mensagem: 'Não foi possível salvar sua face!',
+        erros: ['unchanged'],
+        facesTrain: facesTrain
+    ] unless JsonPath.on(facesTrain, '$.unchanged').blank?
+
+    # TODO mostrar no retorno se foi "created" ou "updated", em caso de sucesso
     # retorno
-    facesTrain
+    result = JsonPath.on(facesTrain, '$.created')
+    result = JsonPath.on(facesTrain, '$.updated') if result.blank?
+    result
   end
 
 
@@ -76,7 +100,7 @@ module FacesAuthenticationHelper
 
 
   # GET /reconher
-  def recognize
+  def recognizeTest
 
     #verifica os dados recebidos
     form = params['person']
@@ -143,7 +167,7 @@ module FacesAuthenticationHelper
   end
 
   # GET /detectar
-  def detect
+  def detectTest
     #face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
     #@tagsSave = face.tags_save(:uid => 'marcelo@Test2', :tids => @json['photos'][0]['tags'][0]['tid'])
     #@facesTrain = face.faces_train(:uids => 'marcelo', :namespace  => 'Test2')

@@ -15,9 +15,9 @@ include FacesAuthenticationHelper
     @test =
     tid = detectar
 
-    # if !tid.blank?
-    #   @test = cadastrar(tid, 3).to_json.html_safe
-    # end
+    if !tid.blank?
+      @test = cadastrar(tid, 3)
+    end
 
 
     render :template => 'site/home'
