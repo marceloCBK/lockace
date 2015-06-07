@@ -18,7 +18,7 @@ module FacesAuthenticationHelper
     face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
 
     url = params[:urlFace]
-    limite = 60
+    limite = 50
 
     # Sem tags
     # detect = JSON.parse '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTI1ODgmY3ZxPXI3MTg1b3EzbnI0MDQmZ3Z6cmZnbnpjPTIwMTUwNjA2MDAxOTQ4","pid":"F@0d805a8b7e8a20ae06a427821a663dae_e7185bd3ae404","width":300,"height":150,"tags":[]}],"usage":{"used":1,"remaining":99,"limit":100,"reset_time":1433550597,"reset_time_text":"Sat, 6 June 2015 00:29:57 +0000"},"operation_id":"65ea78fab63f4ec99fb3dd1a1f43cb61"}'
@@ -41,25 +41,24 @@ module FacesAuthenticationHelper
     if !tags.blank?
       c = JsonPath.on(tags, "$..face..confidence")
       @mensagens << [mensagem: 'Não foi possível detectar sua face!', erros: [confidences: c], detect: detect] if c.blank?
+
+      # define o valor mais alto entre as "confidence" das tags identificadas
+      if c.is_a? Integer
+        maximo = c
+      elsif c.is_a? Array
+        maximo = c.max
+      end
+
+      aprovada = maximo.to_i >= limite
+      if aprovada
+        c = c.index(c.max)
+        tag = tags[c]
+
+        # Encontra o tid nos dados da face encontrada acima
+        tid = JsonPath.on(tag, "$.tid").first unless tag.blank?
+      end unless c.blank? # não faça caso "c" esteja vazio
+      @mensagens << [mensagem: 'Essa foto não ficou boa, que tentar novamente?', erros: [certeza: maximo, limite: limite], detect: detect] unless aprovada
     end
-
-    # define o valor mais alto entre as "confidence" das tags identificadas
-    if c.is_a? Integer
-      maximo = c
-    elsif c.is_a? Array
-      maximo = c.max
-    end
-
-    aprovada = maximo.to_i >= limite
-    if aprovada
-      c = c.index(c.max)
-      tag = tags[c]
-
-      # Encontra o tid nos dados da face encontrada acima
-      tid = JsonPath.on(tag, "$.tid").first unless tag.blank?
-    end unless c.blank? # não faça caso "c" esteja vazio
-    @mensagens << [mensagem: 'Essa foto não ficou boa, que tentar novamente?', erros: [certeza: maximo, limite: limite], detect: detect] unless aprovada
-
 
     # retorno
     tid

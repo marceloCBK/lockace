@@ -12,17 +12,34 @@ include FacesAuthenticationHelper
   # POST /resource
   def create
     @mensagens = []
-    @test =
-    tid = detectar
 
-    if !tid.blank?
-      @test = cadastrar(tid, 3)
+    # Cadastro com imagem
+    if params[:useFace]
+      # Detecta imagem facial se "useFace" é true
+      tid = detectar
+
+      # Cadastra usuário no banco se um tid foi recebido
+      unless tid.blank?
+        super
+        id = resource.id
+      else
+        build_resource({})
+        render template: "users/registrations/new"
+      end
+
+      # Treina imagem recebida se o usuário já está cadastrado
+      faces = cadastrar(tid, id) if !tid.blank? && !id.blank?
+    else
+      # Cadastro sem imagem
+      super
     end
 
 
-    render :template => 'site/home'
-    # redirect_to
-    # super
+    flash[:notice] = JsonPath.on(@mensagens.to_json, "$..mensagem")
+    flash[:dados] = [id: id, tid: tid, faces: faces]
+    flash[:mensagens] = @mensagens
+
+    # render :template => 'site/home'
   end
 
   # GET /resource/edit
@@ -52,9 +69,9 @@ include FacesAuthenticationHelper
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.for(:sign_up) << :attribute
-  # end
+  def configure_sign_up_params
+    devise_parameter_sanitizer.for(:sign_up) << :attribute
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
