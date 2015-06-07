@@ -11,11 +11,13 @@ include FacesAuthenticationHelper
 
   # POST /resource
   def create
+    @mensagens = []
+    @test =
     tid = detectar
 
-    if !tid.blank?
-      @test = cadastrar(tid, 3).to_json.html_safe
-    end
+    # if !tid.blank?
+    #   @test = cadastrar(tid, 3).to_json.html_safe
+    # end
 
 
     render :template => 'site/home'

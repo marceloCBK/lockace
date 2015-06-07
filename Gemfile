@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'devise'
 gem 'face'
+gem 'devise'
+gem 'jsonpath'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
