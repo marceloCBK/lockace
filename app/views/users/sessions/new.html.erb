@@ -47,7 +47,7 @@
         </div>
     </div>
 </div>
-Aki: <%= flash[:notice] %>
+Aki: <%= flash[:notice].to_json.html_safe %>
 
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <div>

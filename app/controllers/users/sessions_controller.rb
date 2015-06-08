@@ -9,10 +9,11 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
+    @relatorio = []
     response = reconhecer
-    # flash[:notice] = response.to_json.html_safe
+    flash[:notice] = response
 
-    sign_in(:user, User.find(1))
+    # sign_in(:user, User.find(1))
     super
   end
 
