@@ -32,7 +32,7 @@ module FacesAuthenticationHelper
     # seleciona tags detectadas
     # obs.: "first" foi usado pois o resultado de JsonPath para argumetos com ".." fica em um array
     tags = JsonPath.on(detect, "$.photos..tags").first
-    @mensagens << [mensagem: 'Não foi possível detectar sua face!', erros:[tags: tags], detect: detect] if tags.blank?
+    @relatorio << [mensagem: 'Não foi possível detectar sua face!', erros:[tags: tags], detect: detect] if tags.blank?
 
 
     # Encontra qual tag detectata com maior confiança (confidence)
@@ -40,7 +40,7 @@ module FacesAuthenticationHelper
     # c = confidences
     if !tags.blank?
       c = JsonPath.on(tags, "$..face..confidence")
-      @mensagens << [mensagem: 'Não foi possível detectar sua face!', erros: [confidences: c], detect: detect] if c.blank?
+      @relatorio << [mensagem: 'Não foi possível detectar sua face!', erros: [confidences: c], detect: detect] if c.blank?
 
       # define o valor mais alto entre as "confidence" das tags identificadas
       if c.is_a? Integer
@@ -57,7 +57,7 @@ module FacesAuthenticationHelper
         # Encontra o tid nos dados da face encontrada acima
         tid = JsonPath.on(tag, "$.tid").first unless tag.blank?
       end unless c.blank? # não faça caso "c" esteja vazio
-      @mensagens << [mensagem: 'Essa foto não ficou boa, que tentar novamente?', erros: [certeza: maximo, limite: limite], detect: detect] unless aprovada
+      @relatorio << [mensagem: 'Essa foto não ficou boa, que tentar novamente?', erros: [certeza: maximo, limite: limite], detect: detect] unless aprovada
     end
 
     # retorno
@@ -81,7 +81,7 @@ module FacesAuthenticationHelper
       facesTrain = face.faces_train(:uids => id, :namespace  => namespace)
     end
 
-    @mensagens << [
+    @relatorio << [
         mensagem: 'Não foi possível salvar sua face!',
         erros: ['unchanged'],
         facesTrain: facesTrain

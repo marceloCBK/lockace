@@ -11,7 +11,7 @@ include FacesAuthenticationHelper
 
   # POST /resource
   def create
-    @mensagens = []
+    @relatorio = []
 
     # Cadastro com imagem
     if params[:useFace]
@@ -23,7 +23,7 @@ include FacesAuthenticationHelper
         super
         id = resource.id
       else
-        build_resource({})
+        build_resource(sign_up_params)
         render template: "users/registrations/new"
       end
 
@@ -35,9 +35,9 @@ include FacesAuthenticationHelper
     end
 
 
-    flash[:notice] = JsonPath.on(@mensagens.to_json, "$..mensagem")
+    flash[:notice] = JsonPath.on(@relatorio.to_json, "$..mensagem")
     flash[:dados] = [id: id, tid: tid, faces: faces]
-    flash[:mensagens] = @mensagens
+    flash[:mensagens] = @relatorio
 
     # render :template => 'site/home'
   end
