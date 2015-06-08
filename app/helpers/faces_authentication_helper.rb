@@ -45,10 +45,14 @@ module FacesAuthenticationHelper
     face = Face.get_client(:api_key => '0da8aecb5c5742d5828dd1f3dcb803e3', :api_secret => 'f5abf82e3c30437da4a1493570b2eed0')
 
     url = params[:urlFace]
-    uid = 'all@Test2'
+    namespace = 'userAce'
+    findUid = "all@#{namespace}"
 
-    json = JSON.parse '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTU5NTAmY3ZxPTFwN3NzcHFvN3ByOTcmZ3Z6cmZnbnpjPTIwMTUwNjA4MDIxMTIx","pid":"F@0ea4d5b50ca02f32220169f701de419a_1c7ffcdb7ce97","width":300,"height":150,"tags":[{"uids":[{"uid":"123@Test2","confidence":65},{"uid":"alisson@Test2","confidence":64}],"label":null,"confirmed":false,"manual":false,"width":18.33,"height":36.67,"yaw":24,"roll":4,"pitch":0,"attributes":{"face":{"value":"true","confidence":56}},"points":null,"similarities":null,"tid":"TEMP_F@0ea4d5b50ca02f32220169f7009c0063_1c7ffcdb7ce97_52.00_66.00_0_1","recognizable":true,"threshold":60,"center":{"x":52.0,"y":66.0},"eye_left":{"x":54.0,"y":58.0,"confidence":54,"id":449},"eye_right":{"x":45.33,"y":56.0,"confidence":54,"id":450},"mouth_center":{"x":48.67,"y":76.0,"confidence":28,"id":615},"nose":{"x":49.0,"y":66.0,"confidence":53,"id":403}}]}],"usage":{"used":27,"remaining":73,"limit":100,"reset_time":1433734197,"reset_time_text":"Mon, 8 June 2015 03:29:57 +0000"},"operation_id":"c6882f4eed1447c998fdeded25f144b9"}'
-    # json = face.faces_recognize(:uids => uid, :urls => url) unless url.blank?
+    # varios uids e falha no na autenticação
+    # json = JSON.parse = '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTg3MzYmY3ZxPW83NjkxMjNvcTgyMG4mZ3Z6cmZnbnpjPTIwMTUwNjA4MDQzMDA4","pid":"F@02e6947312b23fe46b8e834167761b1e_b769123bd820a","width":300,"height":150,"tags":[{"uids":[{"uid":"1@userAce","confidence":34},{"uid":"3@userAce","confidence":33},{"uid":"9@userAce","confidence":32},{"uid":"10@userAce","confidence":29},{"uid":"11@userAce","confidence":29},{"uid":"2@userAce","confidence":27}],"label":null,"confirmed":false,"manual":false,"width":25.33,"height":50.67,"yaw":0,"roll":-1,"pitch":0,"attributes":{"face":{"value":"true","confidence":54}},"points":null,"similarities":null,"tid":"TEMP_F@02e6947312b23fe46b8e83410078005c_b769123bd820a_40.00_61.33_0_1","recognizable":true,"threshold":59,"center":{"x":40,"y":61.33},"eye_left":{"x":46.67,"y":48.67,"confidence":53,"id":449},"eye_right":{"x":34.67,"y":49.33,"confidence":30,"id":450},"mouth_center":{"x":40,"y":75.33,"confidence":29,"id":615},"nose":{"x":40,"y":62.67,"confidence":54,"id":403}}]}],"usage":{"used":27,"remaining":73,"limit":100,"reset_time":1433741397,"reset_time_text":"Mon, 8 June 2015 05:29:57 +0000"},"operation_id":"36562d316152433da59ad123d4a4ea51"}'
+    # autenticado
+    # json = JSON.parse '{"status":"success","photos":[{"url":"http://api.skybiometry.com/fc/images/get?id=bmN2X3hybD0wcW44bnJwbzVwNTc0MnE1ODI4cXExczNxcG84MDNyMyZuY3ZfZnJwZXJnPXM1bm9zODJyM3AzMDQzN3FuNG4xNDkzNTcwbzJycnEwJmVxPTU5NTAmY3ZxPTFwN3NzcHFvN3ByOTcmZ3Z6cmZnbnpjPTIwMTUwNjA4MDIxMTIx","pid":"F@0ea4d5b50ca02f32220169f701de419a_1c7ffcdb7ce97","width":300,"height":150,"tags":[{"uids":[{"uid":"123@Test2","confidence":65},{"uid":"alisson@Test2","confidence":64}],"label":null,"confirmed":false,"manual":false,"width":18.33,"height":36.67,"yaw":24,"roll":4,"pitch":0,"attributes":{"face":{"value":"true","confidence":56}},"points":null,"similarities":null,"tid":"TEMP_F@0ea4d5b50ca02f32220169f7009c0063_1c7ffcdb7ce97_52.00_66.00_0_1","recognizable":true,"threshold":60,"center":{"x":52.0,"y":66.0},"eye_left":{"x":54.0,"y":58.0,"confidence":54,"id":449},"eye_right":{"x":45.33,"y":56.0,"confidence":54,"id":450},"mouth_center":{"x":48.67,"y":76.0,"confidence":28,"id":615},"nose":{"x":49.0,"y":66.0,"confidence":53,"id":403}}]}],"usage":{"used":27,"remaining":73,"limit":100,"reset_time":1433734197,"reset_time_text":"Mon, 8 June 2015 03:29:57 +0000"},"operation_id":"c6882f4eed1447c998fdeded25f144b9"}'
+    json = face.faces_recognize(:uids => findUid, :urls => url) unless url.blank?
 
 
     # Encontra tags no json recebido
@@ -59,22 +63,25 @@ module FacesAuthenticationHelper
       # Encontra uids nas tags
       uids = JsonPath.on(json, "$..uids").first
       @relatorio << [
-          mensagem: 'Não foi possível detectar sua face!',
+          mensagem: 'Usuário não encontrado! Já fez seu cadastro?',
           erros: ["nenhum uid"],
           json: json
-      ] if c.blank?
+      ] if uids.blank?
 
       # Encontra tag com maior confiança (confidence) e seu valor minimo
       usuario = getTagMax uids, 50
 
       # Encontra o uid nos dados do usuário encontrado acima
       uid = JsonPath.on(usuario, "$.uid").first unless usuario.blank?
-      id  = uid.split("@").first
+
+      # seleciona id de usuário
+      id  = uid.split("@").first unless uid.blank?
     end
 
+    @response = [useFaces: params[:useFace], id: id, uid: uid, usuario: usuario, uids: uids, json: json] #  , tags: tags
 
-
-    response = [id: id, uid: uid, usuario: usuario, uids: uids] #  , tags: tags, json: json
+    # retorno
+    id
   end
 
   def detectar

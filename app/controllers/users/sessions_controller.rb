@@ -10,11 +10,24 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     @relatorio = []
-    response = reconhecer
-    flash[:notice] = response
 
-    # sign_in(:user, User.find(1))
+    id = reconhecer
+    sign_in(:user, User.find(id)) unless id.blank?
     super
+
+    # Cadastro com imagem
+    # if params[:useFace]
+    #   id = reconhecer
+    #   sign_in(:user, User.find(id)) unless id.blank?
+    #   super
+    # else
+    #   super
+    # end
+
+    flash[:notice] = @response
+    flash[:mensagens] = JsonPath.on(@relatorio.to_json, "$..mensagem")
+    flash[:relatorio] = @relatorio
+
   end
 
   # DELETE /resource/sign_out

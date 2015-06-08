@@ -10,6 +10,8 @@
                 </div>
                 <div class="card-content">
                     <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "Form") do |f| %>
+                        <%= devise_error_messages! %>
+
                         <div class="Padrao">
                             <div class="field">
                                 <%= f.label :email %><br />
@@ -47,21 +49,38 @@
         </div>
     </div>
 </div>
-Aki: <%= flash[:notice].to_json.html_safe %>
+
+<% if flash[:mensagens] %>
+    <div class="hide">
+      <% flash[:mensagens].each do |mensagem| %>
+          <div class="toast"><%= mensagem %></div>
+      <% end %>
+    </div>
+<% end %>
+
+Resultados: <%= flash[:notice].to_json.html_safe %><br><br>
+Relatorio: <%=flash[:relatorio].to_json.html_safe %>
 
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <div>
     <script>
+        // Inicia os toasts encontrados
+        $( ".toast" ).each(function(i) {
+            var text = $( this ).text();
+            setTimeout( function(){
+                Materialize.toast(text, 6000, "blue darken-1");
+            }, 500 + ( i * 500 ));
+        });
         // Grab elements, create settings, etc.
         var
-                imagem    = $(".Camera .Imagem"),
-                canvas    = imagem.get(0),
-                context   = canvas.getContext("2d"),
-                video     = $(".Camera .Video").get(0),
-                videoObj  = { "video": true },
-                errBack   = function(error) {
-                    console.log("Video capture error: ", error.code);
-                };
+            imagem    = $(".Camera .Imagem"),
+            canvas    = imagem.get(0),
+            context   = canvas.getContext("2d"),
+            video     = $(".Camera .Video").get(0),
+            videoObj  = { "video": true },
+            errBack   = function(error) {
+                console.log("Video capture error: ", error.code);
+            };
         function camera(){
 
             // Put video listeners into place
