@@ -65,16 +65,13 @@
     </div>
 <% end %>
 
-Resultados: <%= params.to_json.html_safe %><br><br>
-
+<!--Resultados: <%= params.to_json.html_safe %><br><br>-->
 SignIn: <%= @signIn.to_json.html_safe %><br><br>
 Mensagens: <%= @mensagens.to_json.html_safe %><br><br>
-Resultados: <%= flash[:alert].to_json.html_safe %><br><br>
-<!--
-Resultados: <%= flash[:notice].to_json.html_safe %><br><br>
-Relatorio: <%=flash[:relatorio].to_json.html_safe %>
+Alert: <%= flash[:alert].to_json.html_safe %><br><br>
+Response: <%= @response.to_json.html_safe %><br><br>
+Relatorio: <%=@relatorio.to_json.html_safe %>
 
--->
 <% flash.each do |name, msg| %>
     <%= content_tag :div, "Nome: #{name} | Conteudo:#{msg}", :id => "flash_#{name}" if msg.is_a?(String) %> <br><br>
 <% end %>

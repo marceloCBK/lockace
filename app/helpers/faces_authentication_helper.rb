@@ -68,8 +68,9 @@ module FacesAuthenticationHelper
           json: json
       ] if uids.blank?
 
+      # TODO Decidir se remove ou não a menssagem em "getTagMax" com "unless uids.blank?"
       # Encontra tag com maior confiança (confidence) e seu valor minimo
-      usuario = getTagMax uids, 50
+      usuario = getTagMax uids, 70
 
       # Encontra o uid nos dados do usuário encontrado acima
       uid = JsonPath.on(usuario, "$.uid").first unless usuario.blank?
@@ -78,7 +79,7 @@ module FacesAuthenticationHelper
       id  = uid.split("@").first unless uid.blank?
     end
 
-    @response = [useFaces: params[:useFace], id: id, uid: uid, usuario: usuario, uids: uids, json: json] #  , tags: tags
+    @response = [tags: tags.blank?,useFaces: params[:useFace], id: id, uid: uid, usuario: usuario, uids: uids, json: json] #  , tags: tags
 
     # retorno
     id
