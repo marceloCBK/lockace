@@ -52,6 +52,11 @@
 
 
 
+<%
+   # TODO encontrar uma forma onde este trcho fique no controller
+   @mensagens = JsonPath.on(@relatorio.to_json, "$..mensagem") # TODO array?
+   @mensagens << flash[:alert] unless flash[:alert].blank?
+%>
 <% if @mensagens %>
     <div class="hide">
     <% @mensagens.each do |mensagem| %>
@@ -62,6 +67,7 @@
 
 Resultados: <%= params.to_json.html_safe %><br><br>
 
+SignIn: <%= @signIn.to_json.html_safe %><br><br>
 Mensagens: <%= @mensagens.to_json.html_safe %><br><br>
 Resultados: <%= flash[:alert].to_json.html_safe %><br><br>
 <!--

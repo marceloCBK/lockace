@@ -1,2 +1,15 @@
 Dados: <%= flash[:dados] %>
 Mensagens: <%= flash[:mensagens] %>
+
+<%
+   # TODO encontrar uma forma onde este trcho fique no controller
+   @mensagens = []
+   @mensagens << flash[:alert] unless flash[:alert].blank?
+%>
+<% if @mensagens %>
+    <div class="hide">
+      <% @mensagens.each do |mensagem| %>
+          <div class="toast"><%= mensagem %></div>
+      <% end %>
+    </div>
+<% end %>

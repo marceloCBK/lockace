@@ -10,6 +10,7 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     @relatorio = []
+    @mensagens = []
 
     # id = reconhecer
     # sign_in(:user, User.find(id)) unless id.blank?
@@ -17,17 +18,18 @@ class Users::SessionsController < Devise::SessionsController
     # Cadastro com imagem
     if params[:useFace]
       id = reconhecer
-      sign_in(:user, User.find(id)) unless id.blank?
-
+      @signIn = sign_in(:user, User.find(id)) unless id.blank?
       self.resource = resource_class.new(sign_in_params)
 
       # flash[:notice]    = @response
       # flash[:relatorio] = @relatorio
       # flash[:mensagens] = JsonPath.on(@relatorio.to_json, "$..mensagem")
-      @mensagens = JsonPath.on(@relatorio.to_json, "$..mensagem") # TODO array?
-      @mensagens << flash[:alert] unless flash[:alert].blank?
 
-      render template: "users/sessions/new"
+      unless @signIn
+        render template: "users/sessions/new"
+      else
+        redirect_to "/", alert: "Olá #{@signIn.email}!"
+      end
     else
       super
     end
