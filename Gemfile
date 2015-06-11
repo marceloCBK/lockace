@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'face'
-gem 'devise'
+gem 'devise', "~> 3.5.1"
 gem 'jsonpath'
 
 
