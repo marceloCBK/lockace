@@ -50,31 +50,9 @@
     </div>
 </div>
 
+<%= render partial: "site/mensagens" %>
+<%= render partial: "site/error" %>
 
-
-<%
-   # TODO encontrar uma forma onde este trcho fique no controller
-   @mensagens = JsonPath.on(@relatorio.to_json, "$..mensagem") # TODO array?
-   @mensagens << flash[:alert] unless flash[:alert].blank?
-%>
-<% if @mensagens %>
-    <div class="hide">
-    <% @mensagens.each do |mensagem| %>
-        <div class="toast"><%= mensagem %></div>
-    <% end %>
-    </div>
-<% end %>
-
-<!--Resultados: <%= params.to_json.html_safe %><br><br>-->
-SignIn: <%= @signIn.to_json.html_safe %><br><br>
-Mensagens: <%= @mensagens.to_json.html_safe %><br><br>
-Alert: <%= flash[:alert].to_json.html_safe %><br><br>
-Response: <%= @response.to_json.html_safe %><br><br>
-Relatorio: <%=@relatorio.to_json.html_safe %>
-
-<% flash.each do |name, msg| %>
-    <%= content_tag :div, "Nome: #{name} | Conteudo:#{msg}", :id => "flash_#{name}" if msg.is_a?(String) %> <br><br>
-<% end %>
 
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <div>

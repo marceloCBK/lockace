@@ -1,0 +1,14 @@
+
+<%
+   # TODO encontrar uma forma onde este trcho fique no controller
+   @mensagens = JsonPath.on(@relatorio.to_json, "$..mensagem") # TODO array?
+   @mensagens << flash[:alert] unless flash[:alert].blank?
+   @mensagens << flash[:notice] unless flash[:notice].blank?
+%>
+<% if @mensagens %>
+    <div class="hide">
+      <% @mensagens.each do |mensagem| %>
+          <div class="toast"><%= mensagem %></div>
+      <% end %>
+    </div>
+<% end %>

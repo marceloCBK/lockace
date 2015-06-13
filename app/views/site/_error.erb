@@ -1,0 +1,22 @@
+
+
+<div class="container">
+    <pre class="language-markup">
+        <!--Resultados: <%= params.to_json.html_safe %><br><br>-->
+        SignIn: <%= @signIn.to_json.html_safe %><br><br>
+        Mensagens: <%= @mensagens.to_json.html_safe %><br><br>
+        Alert: <%= flash[:alert].to_json.html_safe %><br><br>
+        Response: <%= @response.to_json.html_safe %><br><br>
+        Relatorio: <%=@relatorio.to_json.html_safe %>
+
+        <% flash.each do |name, msg| %>
+            <%= content_tag :div, "Nome: #{name} | Conteudo:#{msg}", :id => "flash_#{name}" if msg.is_a?(String) %> <br><br>
+        <% end %>
+
+        Notices: <%= flash[:notice] %><br><br>
+        Dados: <%= flash[:dados] %><br><br>
+        Mensagens: <%= @relatorio.to_json.html_safe %>
+
+
+    </pre>
+</div>

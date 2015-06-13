@@ -51,17 +51,8 @@
   </div>
 </div>
 
-<% if flash[:notice] %>
-    <div class="hide">
-    <% flash[:notice].each do |mensagem| %>
-        <div class="toast"><%= mensagem %></div>
-    <% end %>
-    </div>
-<% end %>
-
-Notices: <%= flash[:notice] %><br><br>
-Dados: <%= flash[:dados] %><br><br>
-Mensagens: <%= @relatorio.to_json.html_safe %>
+<%= render partial: "site/mensagens" %>
+<%= render partial: "site/error" %>
 
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script>

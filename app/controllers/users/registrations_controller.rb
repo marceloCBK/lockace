@@ -35,7 +35,6 @@ include FacesAuthenticationHelper
     end
 
 
-    flash[:notice] = JsonPath.on(@relatorio.to_json, "$..mensagem")
     flash[:dados] = [id: id, tid: tid, faces: faces]
     flash[:mensagens] = @relatorio
 
