@@ -8,43 +8,40 @@
           <canvas class="FWidth Imagem"></canvas>
         </div>
         <div class="card-content">
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-              <%= devise_error_messages! %>
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "Form"}) do |f| %>
+                <%= devise_error_messages! %>
 
-              <div class="Padrao">
                 <div class="field">
-                  <%= f.label :email %><br />
-                  <%= f.email_field :email, autofocus: true %>
+                    <%= f.label :email %><br />
+                    <%= f.email_field :email, autofocus: true %>
                 </div>
 
                 <div class="field">
-                  <%= f.label :password %>
-                  <% if @minimum_password_length %>
+                    <%= f.label :password %>
+                    <% if @minimum_password_length %>
                       <em>(No mínimo <%= @minimum_password_length %> caracteres)</em>
-                  <% end %><br />
-                  <%= f.password_field :password, autocomplete: "off" %>
+                    <% end %><br />
+                    <%= f.password_field :password, autocomplete: "off" %>
                 </div>
 
                 <div class="field">
-                  <%= f.label :password_confirmation %><br />
-                  <%= f.password_field :password_confirmation, autocomplete: "off" %>
+                    <%= f.label :password_confirmation %><br />
+                    <%= f.password_field :password_confirmation, autocomplete: "off" %>
                 </div>
 
-              </div>
+                <!--TODO Implementar checkbox com Rails-->
+                <div class="field">
+                    <input name="urlFace" id="urlFace" type="hidden" value="">
+                    <input type="checkbox" value="1" name="useFace" id="useFace" checked>
+                    <label for="useFace">Cadastrar face</label>
+                </div>
 
-              <!--TODO Implementar checkbox com Rails-->
-              <div class="field">
-                <input name="urlFace" id="urlFace" type="hidden" value="">
-                <input type="checkbox" value="1" name="useFace" id="useFace" checked>
-                <label for="useFace">Cadastrar face</label>
-              </div>
+                <div class="actions">
+                    <%= f.button "Cadastrar", type: "submit", class: "btn waves-effect waves-light Cadastrar" %>
+                </div>
+            <% end %>
 
-              <div class="actions">
-                <%= f.button "Cadastrar", type: "button", class: "btn waves-effect waves-light Cadastrar" %>
-              </div>
-          <% end %>
-
-          <%= render "users/shared/links" %>
+            <%= render "users/shared/links" %>
         </div>
       </div>
     </div>
@@ -54,10 +51,3 @@
 <%= render partial: "site/mensagens" %>
 <%= render partial: "site/error" %>
 <%= render partial: "site/script" %>
-
-
-<script>
-    $(".Cadastrar").click(function() {
-        enviarImagem();
-    });
-</script>

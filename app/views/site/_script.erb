@@ -42,19 +42,25 @@ function camera(){
 
 function enviarImagem() {
     //TODO Pegar a imagem inteira (problemas com "drawImage")
-    context.drawImage(video, 0, 0, 200, 200 * video.clientHeight/ video.clientWidth);
+    context.drawImage(video, 0, 0, 200, 200 * video.clientHeight / video.clientWidth);
     //      context.drawImage(video, 0, 0, 300, 300 * video.offsetWidth/ video.offsetHeight);
     //      context.drawImage(video, 0, 0, 300, 300 * video.videoWidth/ video.videoHeight);
     //      imagem.height(video.offsetHeight);
     //      context.drawImage(video, 0, 0);
-    $("#urlFace").val(canvas.toDataURL());
-    $(".new_user").submit();
+    if ($("#useFace:checked").length){
+        $("#urlFace").val(canvas.toDataURL());
+    }
+//    $(".new_user").submit();
 }
 
 $("#useFace").change(function(){
     $(".Camera .Video").slideToggle();
-    //$(".Padrao").slideToggle();
+    $(".Padrao").slideToggle();
 });
 
 camera();
+
+$( ".Form" ).submit(function( event ) {
+    enviarImagem();
+});
 </script>

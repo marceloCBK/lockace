@@ -9,7 +9,7 @@
                     <canvas class="FWidth Imagem"></canvas>
                 </div>
                 <div class="card-content">
-                    <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "Form") do |f| %>
+                    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "Form"}) do |f| %>
                         <%= devise_error_messages! %>
 
                         <div class="Padrao">
@@ -39,7 +39,7 @@
                         <% end -%>
 
                         <div class="actions">
-                            <%= f.button "Entrar", type: "button", class: "btn waves-effect waves-light Entrar" %>
+                            <%= f.button "Entrar", type: "submit", class: "btn waves-effect waves-light Entrar" %>
                         </div>
                     <% end %>
 
@@ -54,10 +54,3 @@
 <%= render partial: "site/mensagens" %>
 <%= render partial: "site/error" %>
 <%= render partial: "site/script" %>
-
-
-<script>
-    $(".Entrar").click(function() {
-        enviarImagem();
-    });
-</script>
