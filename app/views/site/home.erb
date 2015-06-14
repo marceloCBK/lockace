@@ -1,19 +1,25 @@
-<div>
-    <pre>
-        Dados: <%= flash[:dados] %>
-        Mensagens: <%= flash[:mensagens] %>
+<div class="container Home">
+  <div class="row Center">
+    <div class="col s10 m5">
+      <h2 class="header">Sobre</h2>
 
-        <%
-           # TODO encontrar uma forma onde este trcho fique no controller
-           @mensagens = []
-           @mensagens << flash[:alert] unless flash[:alert].blank?
-        %>
-        <% if @mensagens %>
-          <div class="hide">
-            <% @mensagens.each do |mensagem| %>
-                <div class="toast"><%= mensagem %></div>
-            <% end %>
-          </div>
-        <% end %>
-    </pre>
+      <div class="card">
+        <!--<div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/office.jpg">
+        </div>-->
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Sistema para Autenticaçao Facial Web<i class="mdi-navigation-more-vert right"></i></span>
+
+          <p><a href="#">This is a link</a></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Card Title <i class="mdi-navigation-close right"></i></span>
+          <p>Here is some more information about this product that is only revealed once clicked on.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<%= render partial: "site/mensagens" %>
+<%= render partial: "site/toast" %>
