@@ -53,62 +53,11 @@
 
 <%= render partial: "site/mensagens" %>
 <%= render partial: "site/error" %>
+<%= render partial: "site/script" %>
 
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script>
-    // Inicia os toasts encontrados
-      $( ".toast" ).each(function(i) {
-          var text = $( this ).text();
-          setTimeout( function(){
-              Materialize.toast(text, 6000, "blue darken-1");
-          }, 500 + ( i * 500 ));
-      });
-    // Grab elements, create settings, etc.
-    var
-        imagem    = $(".Camera .Imagem"),
-        canvas    = imagem.get(0),
-        context   = canvas.getContext("2d"),
-        video     = $(".Camera .Video").get(0),
-        videoObj  = { "video": true },
-        errBack   = function(error) {
-        console.log("Video capture error: ", error.code);
-        };
-    function camera(){
-
-        // Put video listeners into place
-        if(navigator.getUserMedia) { // Standard
-        navigator.getUserMedia(videoObj, function(stream) {
-            video.src = stream;
-            video.play();
-        }, errBack);
-        } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-        navigator.webkitGetUserMedia(videoObj, function(stream){
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
-        }, errBack);
-        }
-        else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-        navigator.mozGetUserMedia(videoObj, function(stream){
-            video.src = window.URL.createObjectURL(stream);
-            video.play();
-        }, errBack);
-        };
-    }
-    camera();
-
     $(".Cadastrar").click(function() {
-          //TODO Pegar a imagem inteira (problemas com "drawImage")
-          context.drawImage(video, 0, 0, 200, 200 * video.clientHeight/ video.clientWidth);
-        //      context.drawImage(video, 0, 0, 300, 300 * video.offsetWidth/ video.offsetHeight);
-        //      context.drawImage(video, 0, 0, 300, 300 * video.videoWidth/ video.videoHeight);
-        //      imagem.height(video.offsetHeight);
-        //      context.drawImage(video, 0, 0);
-        $("#urlFace").val(canvas.toDataURL());
-        $(".new_user").submit();
-    });
-
-    $("#useFace").change(function(){
-        $(".Camera .Video").slideToggle();
-        //$(".Padrao").slideToggle();
+        enviarImagem();
     });
 </script>

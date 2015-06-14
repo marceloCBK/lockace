@@ -48,3 +48,7 @@ body .Centralize {
 
 .Camera .Imagem {display: none;}
 .Login .Padrao {display: none;}
+
+/*Correções no Materialize*/
+.toast{height: auto; min-height: 48px; line-height: 130%;}
+nav .nav-wrapper i {line-height: 200%;}
