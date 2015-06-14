@@ -1,0 +1,9 @@
+<script>
+    // Inicia os toasts encontrados
+    $( ".toast" ).each(function(i) {
+        var text = $( this ).text();
+        setTimeout( function(){
+            Materialize.toast(text, 10000, "blue darken-1 center");
+        }, 500 + ( i * 500 ));
+    });
+</script>
