@@ -17,18 +17,35 @@ class Users::SessionsController < Devise::SessionsController
 
     # Cadastro com imagem
     if params[:useFace]
-      id = reconhecer
+      # Identifica usuário
+      ids = reconhecer.first
+
+      unless ids.blank?
+        # seleciona id de usuário
+        uid = ids[:uid]
+        id  = uid.split("@").first unless uid.blank?
+
+        # seleciona tid da face
+        tid = ids[:tid]
+      end
+
+      # Inicia sessão do usuário
       @signIn = sign_in(:user, User.find(id)) unless id.blank?
+
+      # Treina uma nova face para melhorar o reconhecimento
+      train = cadastrar(tid, id) if !id.blank?
+      @relatorio << [train: train]
+
+      # Gera um resource
       self.resource = resource_class.new(sign_in_params)
 
-      # flash[:notice]    = @response
-      # flash[:relatorio] = @relatorio
-      # flash[:mensagens] = JsonPath.on(@relatorio.to_json, "$..mensagem")
-
-      unless @signIn
-        render template: "users/sessions/new"
-      else
+      # Verifica se o usuário foi logado
+      if @signIn
+        # Redireciona para pagina de boas vindas
         redirect_to "/", alert: "Olá #{@signIn.email}!"
+      else
+        # Recarrega pagina
+        render template: "users/sessions/new"
       end
     else
       super
