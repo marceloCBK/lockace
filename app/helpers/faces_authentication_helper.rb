@@ -43,7 +43,7 @@ module FacesAuthenticationHelper
   def reconhecer
 
     url       = params[:urlFace]
-    namespace = 'userAce'
+    namespace = 'insira_seu_namespace_aqui'
     findUid   = "all@#{namespace}"
     limite    = 70
     ids       = '' #Inicial variavel de retorno
@@ -121,7 +121,7 @@ module FacesAuthenticationHelper
 
   def cadastrar tid, id
 
-    namespace = 'userAce'
+    namespace = 'insira_seu_namespace_aqui'
     uid = "#{id}@#{namespace}"
 
     # Envia dados para criação das tags
