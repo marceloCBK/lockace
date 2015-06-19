@@ -30,7 +30,10 @@ function camera(){
 }
 
 function enviarImagem() {
+    $(".Imagem").height($(".Video").height());
     //TODO Pegar a imagem inteira (problemas com "drawImage")
+//    context.drawImage(video, 0, 0, canvas.offsetWidth, canvas.offsetHeight, 0, 0, video.clientWidth, video.clientHeight);
+//    context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
     context.drawImage(video, 0, 0, 200, 200 * video.clientHeight / video.clientWidth);
     //      context.drawImage(video, 0, 0, 300, 300 * video.offsetWidth/ video.offsetHeight);
     //      context.drawImage(video, 0, 0, 300, 300 * video.videoWidth/ video.videoHeight);

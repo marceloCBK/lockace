@@ -8,6 +8,9 @@
         Response: <%= @response.to_json.html_safe %><br>
         Relatorio: <%=@relatorio.to_json.html_safe %><br>
 
+        <% link = JsonPath.on(@response.to_json, '$..photos..url').first %>
+        Link: <%= link_to('<i class="fa fa-2x fa-image"></i>'.html_safe, link, target: "_blank") %> <br>
+
         <% flash.each do |name, msg| %>
             <%= content_tag :div, "Nome: #{name} | Conteudo:#{msg}", :id => "flash_#{name}" if msg.is_a?(String) %> <br><br>
         <% end %>
