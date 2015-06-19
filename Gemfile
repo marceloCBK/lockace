@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'face'
 gem 'devise', "~> 3.5.1"
 gem 'jsonpath'
+gem 'puma'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
