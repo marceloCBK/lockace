@@ -6,6 +6,7 @@ canvas    = imagem.get(0),
 context   = canvas.getContext("2d"),
 video     = $(".Camera .Video").get(0),
 videoObj  = { "video": true },
+stream1   = {},
 errBack   = function(error) {
     console.log("Video capture error: ", error.code);
 };
@@ -24,8 +25,13 @@ function camera(){
     if(navigator.getUserMedia) { // Standard
         navigator.getUserMedia(videoObj, function(stream) {
             video.src = window.URL.createObjectURL(stream);
+            stream1 = stream;
             console.info(video.videoWidth);
-            video.play();
+            video.onloadedmetadata = function(e) {
+                video.play();
+                imagem.height(video.clientHeight);
+//                imagem.width(video.clientWidth);
+            };
         }, errBack);
     };
 }
@@ -35,7 +41,7 @@ function enviarImagem() {
     //TODO Pegar a imagem inteira (problemas com "drawImage")
 //    context.drawImage(video, 0, 0, canvas.offsetWidth, canvas.offsetHeight, 0, 0, video.clientWidth, video.clientHeight);
 //    context.drawImage(video, 0, 0, video.clientWidth, video.clientHeight);
-    context.drawImage(video, 0, 0, 200, 200 * video.clientHeight / video.clientWidth);
+    context.drawImage(video,0, 0, canvas.clientWidth*0.5, canvas.clientHeight*0.5 * video.videoHeight/video.videoWidth);
     //      context.drawImage(video, 0, 0, 300, 300 * video.offsetWidth/ video.offsetHeight);
     //      context.drawImage(video, 0, 0, 300, 300 * video.videoWidth/ video.videoHeight);
     //      imagem.height(video.offsetHeight);
