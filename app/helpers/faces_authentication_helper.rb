@@ -43,7 +43,7 @@ module FacesAuthenticationHelper
   def reconhecer
 
     url       = params[:urlFace]
-    namespace = 'userAce'
+    namespace = 'Test2'
     findUid   = "all@#{namespace}"
     limite    = 70
     ids       = '' #Inicial variavel de retorno
@@ -129,7 +129,7 @@ module FacesAuthenticationHelper
 
   def cadastrar tid, id
 
-    namespace = 'userAce'
+    namespace = 'Test2'
     uid = "#{id}@#{namespace}"
 
     # tagsSave = JSON.parse '{"status":"success","saved_tags":[{"tid":"009c005d_66c6544760f16","detected_tid":"TEMP_F@0da7f39f3e72abe16a1af968009c005d_66c6544760f16_52.00_62.00_0_1"}],"message":"Tag saved with uid: 1@userAce, label: ","operation_id":"622839020ebb4027ac848d315130bafc"}'

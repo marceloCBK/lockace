@@ -24,6 +24,7 @@ function camera(){
     if(navigator.getUserMedia) { // Standard
         navigator.getUserMedia(videoObj, function(stream) {
             video.src = window.URL.createObjectURL(stream);
+            console.info(video.videoWidth);
             video.play();
         }, errBack);
     };
